@@ -22,7 +22,7 @@ This project presents a detailed **in silico** design and simulation of a multi-
 - TailwindCSS
 - Chart.js
 - HTML5, JS
-- Tools used: NetMHCpan, PSIPRED, HADDOCK, AlphaFold2, GROMACS
+- Tools used: NetMHCpan, PSIPRED, HADDOCK, Robetta, GROMACS, Snapgene
 
 ## 🧪 Authors
 
