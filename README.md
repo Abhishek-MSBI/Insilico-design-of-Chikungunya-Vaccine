@@ -1,37 +1,70 @@
-# Multi-Epitope Vaccine Design Against Chikungunya Virus
-
-This project presents a detailed **in silico** design and simulation of a multi-epitope subunit vaccine against the Chikungunya virus. It uses **immunoinformatics, structural bioinformatics**, and **molecular dynamics** to construct a stable, antigenic, and non-allergenic chimeric protein suitable for experimental validation.
+# 🧬 Multi-Epitope Subunit Vaccine Design Against Chikungunya Virus
 
 The research paper is live at https://abhishek-msbi.github.io/Insilico-design-of-Chikungunya-Vaccine/
 
-## 🚀 Features
+This repository presents a comprehensive **in silico** pipeline for the design, structural validation, and immunological characterization of a multi-epitope subunit vaccine candidate targeting the *Chikungunya virus (CHIKV)*.
 
-- Multi-epitope vaccine construct with β-defensin adjuvant
-- Codon optimization and in silico cloning into pET-28a(+) vector
-- Structural validation: Ramachandran, ERRAT, Verify3D, ProSA
-- Immune response simulation (C-ImmSim)
-- Molecular docking with TLR4, MHC-I, MHC-II
-- MD simulations (RMSD, RMSF, Rg, H-bonds)
+> **Authors**: Abhishek S R, Janani S P  
+> Department of Life Science and Bioinformatics, Garden City University, Bangalore, India
 
-## 📁 File Structure
+---
 
-- `index.html`: Main web page with all content and layout
-- `images/`: Figures referenced in the results and methods
-- `MD Sim/`: Graphs and plots from molecular dynamics simulation
+## 📄 Abstract
 
-## 📜 Technologies
+Chikungunya virus (CHIKV) is a globally re-emerging arboviral threat with no licensed vaccine. This project uses immunoinformatics, structural bioinformatics, and molecular simulation tools to construct and validate a multi-epitope subunit vaccine targeting the viral structural polyprotein (E1, E2, 6K, E3 - UniProt ID: Q8JUX5). The final construct integrates:
 
-- TailwindCSS
-- Chart.js
-- HTML5, JS
-- Tools used: NetMHCpan, PSIPRED, HADDOCK, Robetta, GROMACS, Snapgene
+- **T-cell and B-cell epitopes** (MHC-I, MHC-II, Linear and Conformational)
+- **β-defensin-3 adjuvant**
+- **PADRE sequence** for broad HLA class II coverage
+- **Linkers**: EAAAK, AAY, GPGPG, and KK
+- **His-tag** for purification
 
-## 🧪 Authors
+## 🔬 Methodology Overview
 
-- Abhishek S R  
-- Janani S P  
-_Department of Lifescience and Bioinformatics, Garden City University, Bangalore, India_
+### 🎯 Target Protein
+- **Accession**: Q8JUX5 (CHIKV structural polyprotein)
+- Retrieved from [UniProt](https://www.uniprot.org/)
 
-## 📄 License
+### 🧩 Epitope Prediction
+- **MHC-I & MHC-II epitopes**: Based on immunogenicity, antigenicity, non-toxicity, non-allergenicity
+- **Linear and Discontinuous B-cell epitopes**
+- **Population coverage** was analyzed for HLA diversity
 
-This project is open-sourced under the MIT License. See [LICENSE](./LICENSE) for details.
+### 🧱 Vaccine Construction
+- Sequence constructed using adjuvant + PADRE + epitopes with appropriate linkers
+- Codon-optimized using JCat and cloned in silico into an expression vector
+
+### ⚗️ Bioinformatics Analysis
+- **ProtParam**: Solubility, instability index, pI, GRAVY, amino acid composition
+- **Psipred**: Secondary structure
+- **Robetta + GalaxyRefine**: Tertiary structure prediction and refinement
+- **Ramachandran Plot + ERRAT**: Structural validation
+
+### 🧬 Molecular Interactions
+- **HADDOCK** docking with:
+  - TLR4 (innate immunity)
+  - MHC-I (CD8+ T cell response)
+  - MHC-II (CD4+ T helper cell activation)
+
+### 🧪 Immune Simulation (C-ImmSim)
+- Predicted robust humoral and cellular responses
+- Increased memory T and B cells, cytokines, and antibody levels (IgM, IgG1, IgG2)
+
+### 📈 Molecular Dynamics (GROMACS)
+- Assessed vaccine stability in a physiological environment
+
+---
+
+## 🧪 Final Construct (Summary)
+
+- **Length**: 291 amino acids
+- **MW**: 31.3 kDa
+- **pI**: 9.16
+- **Instability Index**: 35.42 (stable)
+- **GRAVY**: -0.416 (hydrophilic)
+
+---
+
+## 📁 Repository Structure
+
+
