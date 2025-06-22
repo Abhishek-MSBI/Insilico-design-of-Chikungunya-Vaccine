@@ -66,7 +66,8 @@ Chikungunya virus (CHIKV) is a globally re-emerging arboviral threat with no lic
 ---
 
 ## 📁 Repository Structure
-Chikungunya_Vaccine_InSilico/
+
+Chikungunya_Vaccine_InSilico
 ├── index.html # Web presentation (optional)
 ├── README.md # Project overview
 ├── LICENSE # Open-source license (MIT)
