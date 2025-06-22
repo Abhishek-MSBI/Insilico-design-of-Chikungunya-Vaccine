@@ -1,0 +1,50 @@
+
+---
+
+## 📚 Tools & Databases Used
+
+| Tool | Purpose |
+|------|---------|
+| **UniProt** | Target protein retrieval |
+| **IEDB / NetCTL / NetMHCpan** | Epitope prediction |
+| **ProtParam** | Physicochemical profiling |
+| **Psipred / Robetta / GalaxyRefine** | Structure prediction |
+| **Ellipro** | Discontinuous B-cell epitope mapping |
+| **HADDOCK 2.4** | Molecular docking |
+| **GROMACS** | Molecular dynamics |
+| **C-ImmSim** | Immune simulation |
+| **JCat / SnapGene** | Codon optimization and in silico cloning |
+
+---
+
+## 🧪 Research Goals
+
+- Develop a non-allergenic, highly immunogenic, and stable vaccine candidate
+- Enable high-throughput vaccine design using computational biology
+- Provide a framework for experimental validation
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](./LICENSE).
+
+---
+
+## 📬 Contact
+
+For academic collaborations or questions:
+
+- **Abhishek S R**  
+[GitHub](https://github.com/abhisheksr) | [Email](mailto:your.email@example.com)
+
+---
+
+## 🌐 Citation
+
+If you use this work in your research, please cite:
+
+> Abhishek S R, Janani S P. *In Silico Design and Immunoinformatics Characterization of a Multi-Epitope Subunit Vaccine Candidate Against Chikungunya Virus.* Garden City University, 2025.
+
+---
+
