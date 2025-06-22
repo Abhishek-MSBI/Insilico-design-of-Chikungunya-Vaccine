@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design of a Multi-Epitope Vaccine Against Chikungunya Virus: An In Silico Approach</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Roboto:wght@300;400;500;700&family=Source+Serif+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0A386B;
+            --secondary-color: #818FA6;
+            --accent-color: #1A6CB5;
+            --background-color: #F8F9FA;
+            --text-color: #333333;
+            --light-gray: #E9ECEF;
+            --medium-gray: #CED4DA;
+            --dark-gray: #6C757D;
+        }
+        
+        body {
+            font-family: 'Source Serif Pro', Georgia, serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Merriweather', Georgia, serif;
+            color: var(--primary-color);
+        }
+        
+        .journal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .journal-header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--medium-gray);
+            margin-bottom: 30px;
+        }
+        
+        .journal-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .authors {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+        }
+        
+        .affiliation {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .doi {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+            margin-top: 20px;
+        }
+        
+        .two-column {
+            column-count: 2;
+            column-gap: 40px;
+            text-align: justify;
+        }
+        
+        .full-width {
+            column-span: all;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+            column-span: all;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 8px;
+        }
+        
+        .subsection-title {
+            font-size: 1.25rem;
+            margin: 24px 0 12px;
+            font-weight: 600;
+        }
+        
+        .figure {
+            margin: 30px 0;
+            break-inside: avoid;
+        }
+        
+        .figure-caption {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-top: 10px;
+            text-align: left;
+        }
+        
+        .table-container {
+            margin: 20px 0;
+            overflow-x: auto;
+            break-inside: avoid;
+        }
+        
+        .journal-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .journal-table th {
+            background-color: var(--light-gray);
+            text-align: left;
+            padding: 12px;
+            font-weight: 600;
+        }
+        
+        .journal-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .references {
+            padding-left: 25px;
+            text-indent: -25px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .reference-item {
+            margin-bottom: 15px;
+        }
+
+        /* Retain some useful styles from original site */
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .nav-link.active, .nav-link:hover {
+            color: var(--accent-color);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-width: 800px;
+            max-height: 450px;
+        }
+        
+        .component-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            transform: scale(1.02);
+        }
+        
+        .component-btn {
+            transition: all 0.2s ease-in-out;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        
+        .md-sim-image, .immune-sim-image {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .md-sim-image:hover, .immune-sim-image:hover {
+            transform: scale(1.03);
+        }
+        
+        .md-sim-caption, .immune-sim-caption {
+            font-size: 0.875rem;
+            color: var(--dark-gray);
+            text-align: center;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Citation styles */
+        .citation {
+            font-size: 0.9em;
+            vertical-align: super;
+            color: var(--accent-color);
+        }
+        
+        /* Figure and table numbering */
+        .figure-number {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .table-number {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Academic Journal Header -->
+    <div class="journal-container">
+        <header class="journal-header">
+            <div class="text-sm uppercase tracking-wide text-gray-500 mb-3"></div>
+            <h1 class="journal-title">Design of a Multi-Epitope Vaccine Against Chikungunya Virus: An In Silico Approach</h1>            <div class="authors">Authors: Abhishek S R<sup>1</sup>, Janani S P<sup>2</sup></div>
+            <div class="affiliation"><sup></sup>Department of Lifescience and Bioinformatics, Garden City University, Bangalore, India</div>
+           
+        </header>
+    
+        <!-- Navigation -->
+        <nav class="sticky top-0 z-50 bg-white shadow-md py-4 px-6 mb-8">
+            <div class="flex justify-between items-center">
+                <div class="text-sm font-medium text-gray-500"></div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#abstract" class="nav-link font-medium text-gray-600 pb-1">Abstract</a>
+                    <a href="#introduction" class="nav-link font-medium text-gray-600 pb-1">Introduction</a>
+                    <a href="#materials-methods" class="nav-link font-medium text-gray-600 pb-1">Materials & Methods</a>
+                    <a href="#results" class="nav-link font-medium text-gray-600 pb-1">Results</a>
+                    <a href="#discussion" class="nav-link font-medium text-gray-600 pb-1">Discussion</a>
+                    <a href="#conclusion" class="nav-link font-medium text-gray-600 pb-1">Conclusion</a>
+                    <a href="#references" class="nav-link font-medium text-gray-600 pb-1">References</a>
+                </div>
+                <div class="md:hidden">
+                    <label for="mobile-nav" class="sr-only">Navigate to section</label>
+                    <select id="mobile-nav" aria-label="Navigation" title="Navigate to section" class="bg-gray-100 border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <option value="#abstract">Abstract</option>
+                        <option value="#introduction">Introduction</option>
+                        <option value="#materials-methods">Materials & Methods</option>
+                        <option value="#results">Results</option>
+                        <option value="#discussion">Discussion</option>
+                        <option value="#conclusion">Conclusion</option>
+                        <option value="#references">References</option>
+                    </select>
+                </div>
+            </div>
+        </nav>    <main class="journal-container">
+        <!-- Abstract -->
+        <section id="abstract" class="mb-12">
+            <h2 class="section-title">Abstract</h2>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mb-4">
+                <p class="mb-3">
+                    Chikungunya virus (CHIKV) is a mosquito-borne alphavirus responsible for debilitating arthralgia and inflammatory disease in humans. Despite its significant global health impact, there is currently no licensed vaccine. This study details the computational design and validation of a multi-epitope subunit vaccine against CHIKV using an integrated immunoinformatics approach.
+                </p>
+                <p class="mb-3">
+                    We identified immunogenic epitopes from the CHIKV structural polyprotein and constructed a 291-amino acid chimeric vaccine by incorporating six MHC-I, four MHC-II, and two B-cell epitopes using appropriate linkers. The construct was enhanced with β-defensin as an adjuvant and a Pan DR epitope (PADRE) sequence to ensure broad HLA coverage.
+                </p>
+                <p class="mb-3">
+                    Structural analysis confirmed a stable and soluble protein with favorable physicochemical properties. Molecular docking and dynamics simulations demonstrated stable interactions with immune receptors and conformational stability under physiological conditions. Immune simulations predicted robust humoral and cell-mediated responses without allergenic or toxic effects.
+                </p>
+                <p>
+                    Our in silico analyses suggest this rationally designed multi-epitope vaccine candidate warrants experimental validation as a potentially safe and effective prophylactic measure against CHIKV infection.
+                </p>
+                <p class="mt-3 text-sm text-gray-500 italic">Keywords: Chikungunya virus; multi-epitope vaccine; immunoinformatics; molecular dynamics; structural polyprotein; epitope prediction</p>
+            </div>
+        </section>
+        
+        <!-- Introduction -->
+        <section id="introduction" class="mb-12">
+            <h2 class="section-title">1. Introduction</h2>
+            <div class="two-column">
+                <p class="mb-4">
+                    Chikungunya virus (CHIKV) is an arthropod-borne alphavirus belonging to the family Togaviridae, primarily transmitted to humans through the bite of infected <i>Aedes aegypti</i> and <i>Aedes albopictus</i> mosquitoes<span class="citation">1</span>. First identified during an outbreak in Tanzania in 1952, CHIKV has since spread globally, causing significant epidemics in Africa, Asia, Europe, and the Americas<span class="citation">2</span>. The name "chikungunya" derives from the Kimakonde language, meaning "to become contorted," reflecting the stooped posture of patients suffering from severe joint pain characteristic of the infection<span class="citation">3</span>.
+                </p>
+                
+                <p class="mb-4">
+                    CHIKV infection typically manifests as an acute febrile illness accompanied by incapacitating polyarthralgia, myalgia, headache, and rash. While the acute phase usually resolves within two weeks, a significant proportion of patients (10-50%) develop chronic rheumatic manifestations that can persist for months to years, substantially impacting quality of life and imposing considerable socioeconomic burden<span class="citation">4</span>. The expanding geographical distribution of vector mosquitoes due to climate change and globalization has increased the risk of CHIKV outbreaks in previously unaffected regions<span class="citation">5</span>.
+                </p>
+                
+                <p class="mb-4">
+                    Despite the significant public health threat posed by CHIKV, there are currently no licensed vaccines or specific antiviral treatments available. Management remains primarily supportive, focusing on symptom relief with analgesics and anti-inflammatory agents<span class="citation">6</span>. Several vaccine candidates, including inactivated virus, virus-like particles, live-attenuated, and recombinant subunit vaccines, have shown promise in pre-clinical and early clinical trials, but challenges remain regarding safety, efficacy, and durability of protection<span class="citation">7</span>.
+                </p>
+                
+                <p class="mb-4">
+                    The CHIKV genome consists of a positive-sense, single-stranded RNA approximately 11.8 kb in length, encoding four nonstructural proteins (nsP1-nsP4) and five structural proteins: capsid (C), envelope glycoproteins (E1, E2, E3), and 6K<span class="citation">8</span>. The structural proteins, particularly E1 and E2, play critical roles in viral entry and are primary targets for neutralizing antibodies, making them attractive candidates for vaccine development<span class="citation">9</span>.
+                </p>
+                
+                <p class="mb-4">
+                    Advances in computational biology and immunoinformatics have revolutionized vaccine design by enabling the identification of immunogenic epitopes and rational construction of multi-epitope vaccines<span class="citation">10</span>. This approach offers several advantages over traditional vaccines, including enhanced safety profiles, targeted immune responses, and the ability to focus on conserved regions while avoiding potentially pathogenic or allergenic sequences<span class="citation">11</span>.
+                </p>
+                
+                <p class="mb-4">
+                    In this study, we employed a comprehensive immunoinformatics approach to design a multi-epitope subunit vaccine against CHIKV. Our strategy involved identifying potent T-cell (MHC class I and II) and B-cell epitopes from the CHIKV structural polyprotein, followed by their integration into a single construct using appropriate linkers. The vaccine design was enhanced with a β-defensin adjuvant to boost immunogenicity and a Pan DR epitope (PADRE) sequence to ensure broad population coverage across diverse HLA types.                </p>
+                
+                <p class="mb-4">
+                    The designed vaccine construct was subjected to extensive in silico validation, including assessment of physicochemical properties, prediction of secondary and tertiary structures, refinement and validation of the 3D model, molecular docking with immune receptors, and molecular dynamics simulations. Furthermore, we evaluated the immunogenic potential through immune response simulations and optimized the sequence for expression in <i>E. coli</i>. Our results suggest this rationally designed multi-epitope vaccine candidate warrants experimental validation as a potentially safe and effective prophylactic measure against CHIKV infection.
+                </p>
+            </div>
+        </section>        <!-- Materials and Methods -->
+        <section id="materials-methods" class="mb-12">
+            <h2 class="section-title">2. Materials and Methods</h2>
+              <h3 class="subsection-title">2.1. CHIKV Structural Polyprotein Analysis and Epitope Prediction</h3>
+            <p class="mb-4">
+                The complete structural polyprotein sequence of Chikungunya virus (UniProt ID: Q8JUX5) was retrieved from the UniProt database<span class="citation">12</span>. Antigenicity was assessed using VaxiJen v2.0 with a threshold of 0.4, and protein parameters were analyzed using ProtParam<span class="citation">13,14</span>.
+            </p>
+            
+            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 2. CHIKV Structural Polyprotein Sequence Analysis</h4>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <div class="flex justify-center">
+                                <img src="images/image2.png" alt="CHIKV Polyprotein Sequence" class="w-full h-auto rounded md-sim-image">
+                            </div>
+                            <p class="figure-caption">Distribution of protein families and superfamilies in the Chikungunya virus polyprotein sequence. The diagram shows the organization of key structural proteins including capsid protein, envelope glycoproteins (E1, E2, E3), and their corresponding functional domains that were targeted for epitope selection in this study.</p>
+                        </div>
+                    </div>
+                    <p class="mt-4">The CHIKV structural polyprotein was analyzed to identify conserved, immunogenic regions for epitope mapping. The sequence contains distinct domains including capsid protein, envelope glycoproteins E3, E2, 6K, and E1, with varying degrees of antigenicity and surface accessibility. These regions were systematically screened for potential B-cell and T-cell epitopes based on their sequence conservation and predicted immunogenicity.</p>
+                </div>
+            </div>
+            
+            <p class="mb-4">
+                MHC Class I epitopes were predicted using NetMHCpan 4.1 with IC<sub>50</sub> threshold ≤ 200nM for strong binding<span class="citation">15</span>. MHC Class II epitopes were identified using NetMHCIIpan 4.0 with similar binding affinity criteria<span class="citation">16</span>. Linear B-cell epitopes were predicted using ABCpred and BepiPred 2.0 with threshold scores of 0.8 and 0.5, respectively<span class="citation">17,18</span>.
+            </p>
+            
+            <p class="mb-4">
+                Predicted epitopes were further screened for antigenicity, allergenicity (AllerTOP v2.0), and toxicity (ToxinPred)<span class="citation">19,20</span>. Conserved epitopes with high population coverage and no allergenic or toxic properties were selected for vaccine construction.
+            </p>
+            
+            <h3 class="subsection-title">2.2. Multi-Epitope Vaccine Design</h3>
+            <p class="mb-4">
+                The vaccine construct was assembled with human β-defensin 3 (hBD-3) as an N-terminal adjuvant, followed by a PADRE sequence, six MHC Class I epitopes, four MHC Class II epitopes, and two B-cell epitopes, with appropriate linkers (EAAAK, AAY, GPGPG, and KK) between components. A 6×His tag was added at the C-terminus for purification purposes<span class="citation">21</span>.
+            </p>
+            
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 1. Schematic Representation of the Vaccine Construct</h4>
+                <div class="space-y-2">
+                    <div class="component-btn w-full p-3 bg-teal-100 text-teal-800 rounded-lg font-semibold text-center shadow-sm">Adjuvant (β-defensin 3)</div>
+                    <div class="text-center text-gray-400 text-xl font-light">↓ EAAAK</div>
+                    <div class="component-btn w-full p-3 bg-indigo-100 text-indigo-800 rounded-lg font-semibold text-center shadow-sm">PADRE Sequence</div>
+                    <div class="text-center text-gray-400 text-xl font-light">↓ GGSS</div>
+                    <div class="component-btn w-full p-3 bg-blue-100 text-blue-800 rounded-lg font-semibold text-center shadow-sm">MHC Class I Epitopes (6) with AAY linkers</div>
+                    <div class="text-center text-gray-400 text-xl font-light">↓ GGSS</div>
+                    <div class="component-btn w-full p-3 bg-purple-100 text-purple-800 rounded-lg font-semibold text-center shadow-sm">MHC Class II Epitopes (4) with GPGPG linkers</div>
+                    <div class="text-center text-gray-400 text-xl font-light">↓ GGSS</div>
+                    <div class="component-btn w-full p-3 bg-pink-100 text-pink-800 rounded-lg font-semibold text-center shadow-sm">B-Cell Epitopes (2) with KK linker</div>
+                    <div class="text-center text-gray-400 text-xl font-light">↓ GGSS</div>
+                    <div class="component-btn w-full p-3 bg-gray-100 text-gray-800 rounded-lg font-semibold text-center shadow-sm">6×His Tag</div>
+                </div>
+                <p class="text-sm text-gray-600 mt-4">The final construct comprises 291 amino acid residues with calculated molecular weight of 31.3 kDa.</p>
+            </div>            <h3 class="subsection-title">2.3. Epitope Selection and Vaccine Components</h3>
+            <p class="mb-4">
+                After rigorous computational screening, we selected the most promising epitopes from the CHIKV structural polyprotein based on their antigenicity, immunogenicity, population coverage, and lack of allergenic or toxic properties.
+            </p>
+
+            <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 mb-8">
+                <h4 class="text-lg font-semibold mb-4">Table 2. Selected Epitopes for Vaccine Construction</h4>
+                <div class="overflow-x-auto">
+                    <table class="journal-table">
+                        <thead>
+                            <tr>
+                                <th>Epitope Type</th>
+                                <th>Sequence</th>
+                                <th>Position</th>
+                                <th>Antigenicity</th>
+                                <th>HLA Binding</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- MHC Class I Epitopes -->
+                            <tr>
+                                <td rowspan="6">MHC Class I</td>
+                                <td>YMWLGARFL</td>
+                                <td>58-66</td>
+                                <td>1.2134</td>
+                                <td>HLA-A*02:01, A*24:02</td>
+                            </tr>
+                            <tr>
+                                <td>LLMRTTWAL</td>
+                                <td>323-331</td>
+                                <td>0.9856</td>
+                                <td>HLA-A*02:01, B*07:02</td>
+                            </tr>
+                            <tr>
+                                <td>QTDNQLAVY</td>
+                                <td>415-423</td>
+                                <td>1.1023</td>
+                                <td>HLA-A*01:01, A*03:01</td>
+                            </tr>
+                            <tr>
+                                <td>FATAHGISY</td>
+                                <td>701-709</td>
+                                <td>0.9211</td>
+                                <td>HLA-A*01:01, B*35:01</td>
+                            </tr>
+                            <tr>
+                                <td>KPGKRTIVY</td>
+                                <td>126-134</td>
+                                <td>1.3245</td>
+                                <td>HLA-A*03:01, B*27:05</td>
+                            </tr>
+                            <tr>
+                                <td>FLWMDSTGM</td>
+                                <td>638-646</td>
+                                <td>0.8734</td>
+                                <td>HLA-B*08:01, C*07:01</td>
+                            </tr>
+                            
+                            <!-- MHC Class II Epitopes -->
+                            <tr>
+                                <td rowspan="4">MHC Class II</td>
+                                <td>WLGARFLEYSPDTGNV</td>
+                                <td>60-75</td>
+                                <td>1.3452</td>
+                                <td>DRB1*01:01, DRB1*04:01</td>
+                            </tr>
+                            <tr>
+                                <td>CPKDHSSFPNVSINFI</td>
+                                <td>278-293</td>
+                                <td>0.9872</td>
+                                <td>DRB1*03:01, DRB1*07:01</td>
+                            </tr>
+                            <tr>
+                                <td>AVRPKSRTTLLTST</td>
+                                <td>502-515</td>
+                                <td>1.1534</td>
+                                <td>DRB1*15:01, DRB3*01:01</td>
+                            </tr>
+                            <tr>
+                                <td>VLTPDDHAVLKMFT</td>
+                                <td>677-690</td>
+                                <td>0.9367</td>
+                                <td>DRB1*04:05, DRB5*01:01</td>
+                            </tr>
+                            
+                            <!-- B-Cell Epitopes -->
+                            <tr>
+                                <td rowspan="2">B-Cell</td>
+                                <td>EPFVPRTVDAPAVWRDQGSF</td>
+                                <td>220-239</td>
+                                <td>1.2598</td>
+                                <td>N/A</td>
+                            </tr>
+                            <tr>
+                                <td>HSMTNAVTIREAEIEVEGD</td>
+                                <td>365-383</td>
+                                <td>1.0876</td>
+                                <td>N/A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h4 class="text-lg font-semibold mt-6 mb-3">Vaccine Construct Components</h4>
+                <div class="space-y-2 mt-4">
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h5 class="font-medium text-primary-color mb-2">Adjuvant (N-terminus):</h5>
+                        <p class="mb-2"><span class="font-semibold">Component:</span> Human β-defensin 3 (hBD-3)</p>
+                        <p class="mb-2"><span class="font-semibold">Sequence:</span> MRIHYLLFALLFLFLVPVPGHGGIINTLQKYYCRVRGGRCAVLSCLPKEEQIGKCSTRGRKCCRRKK</p>
+                        <p><span class="font-semibold">Function:</span> Enhances immunogenicity by acting as a TLR4 agonist and promoting dendritic cell maturation</p>
+                    </div>
+                    
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h5 class="font-medium text-primary-color mb-2">PADRE Sequence:</h5>
+                        <p class="mb-2"><span class="font-semibold">Sequence:</span> AKFVAAWTLKAAA</p>
+                        <p><span class="font-semibold">Function:</span> Universal T-helper epitope enhancing MHC-II binding across diverse HLA-DR alleles</p>
+                    </div>
+                    
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h5 class="font-medium text-primary-color mb-2">Linkers:</h5>
+                        <p class="mb-1"><span class="font-semibold">EAAAK:</span> Forms α-helical structures, separates functional domains</p>
+                        <p class="mb-1"><span class="font-semibold">AAY:</span> Between MHC-I epitopes, prevents formation of junctional epitopes</p>
+                        <p class="mb-1"><span class="font-semibold">GPGPG:</span> Between MHC-II epitopes, enhances flexibility and epitope presentation</p>
+                        <p><span class="font-semibold">KK:</span> Between B-cell epitopes, improves solubility</p>
+                    </div>
+                    
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <h5 class="font-medium text-primary-color mb-2">Complete Vaccine Sequence (291 aa):</h5>
+                        <p class="text-xs font-mono break-words">MRIHYLLFALLFLFLVPVPGHGGIINTLQKYYCRVRGGRCAVLSCLPKEEQIGKCSTRGRKCCRRKKEAAAKAKFVAAWTLKAAAGGSSYMWLGARFLAAYQTDNQLAVYAAYFATTAHGISYAAYLLMRTTWALAAYFLWMDSTGMAAYKPGKRTIVYGGSSWLGARFLEYSPDTGNVGPGPGCPKDHSSFPNVSINFIGPGPGAVRPKSRTTLLLTSTGPGPGVLTPDDHAVLKMFTGGSSHSMTNAVTIREAEIEVEGDKKEPFVPRTVDAPAVWRDQGSF</p>
+                    </div>
+                </div>
+                
+                <p class="text-sm text-gray-600 mt-4">All selected epitopes demonstrated high binding affinity to their respective HLA alleles with IC<sub>50</sub> values ≤ 200nM for MHC-I and ≤ 1000nM for MHC-II epitopes. The complete construct exhibits predicted solubility, stability, and non-allergenicity suitable for vaccine development.</p>
+            </div>
+
+            <h3 class="subsection-title">2.4. Population Coverage Analysis</h3>
+            <p class="mb-4">
+                A critical aspect of vaccine design is ensuring broad population coverage across diverse ethnicities. We analyzed the population coverage of selected epitopes using the IEDB Population Coverage tool, assessing the cumulative coverage of MHC Class I and II epitopes in different geographic regions.
+            </p>              <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 2. Population Coverage Analysis</h4>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="bg-gray-50 p-2 rounded">
+                        <div class="flex justify-center">
+                            <img src="images/image4.png" alt="Population Coverage Analysis" class="w-1/2 h-auto rounded md-sim-image">
+                        </div>
+                        <p class="figure-caption">Population coverage analysis showing the percentage of individuals covered by the selected epitopes based on HLA allele frequencies. The graph displays the number of epitope hits per HLA combination recognized (x-axis) against the percentage of individuals (left y-axis) and cumulative percentage of population coverage (right y-axis, blue line).</p>
+                    </div>
+                    <p class="mt-4">The selected epitopes achieved excellent global population coverage, with a combined average of 92.5% worldwide as indicated by the analysis. The cumulative coverage (blue line) reaches above 90% (red threshold line), confirming the broad applicability of the designed vaccine across diverse populations. This extensive coverage is primarily due to the inclusion of epitopes targeting conserved regions that bind to multiple HLA alleles, complemented by the universal PADRE sequence that enhances recognition across diverse HLA-DR types.</p>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">2.5. Physicochemical Analysis and Structure Prediction</h3>
+            <p class="mb-4">
+                Physicochemical properties were analyzed using ProtParam, including molecular weight, theoretical pI, instability index, aliphatic index, and grand average of hydropathicity (GRAVY)<span class="citation">14</span>. Secondary structure elements were predicted using PSIPRED<span class="citation">22</span>. The tertiary structure was modeled using AlphaFold2<span class="citation">23</span> and refined with GalaxyRefine<span class="citation">24</span>. Structural validation was performed using PROCHECK, ERRAT, and Verify3D<span class="citation">25</span>.
+            </p>
+
+            <h3 class="subsection-title">2.6. Molecular Docking and Dynamics Simulation</h3>
+            <p class="mb-4">
+                Molecular docking of the vaccine construct with Toll-like receptor 4 (TLR4, PDB: 4G8A), MHC Class I (PDB: 1HLA), and MHC Class II (PDB: 1DLH) was performed using HADDOCK<span class="citation">26</span>. The docked complexes were evaluated based on HADDOCK score, Z-score, and buried surface area.
+            </p>
+
+            <p class="mb-4">
+                Molecular dynamics simulations were conducted using GROMACS 2020.4 with the CHARMM36 force field<span class="citation">27</span>. The system was solvated in an explicit TIP3P water model in a dodecahedral box with periodic boundary conditions. After energy minimization and equilibration, a 100 ns production run was performed at 310 K and 1 bar pressure. Trajectories were analyzed for RMSD, RMSF, Rg, and hydrogen bonding.
+            </p>
+
+            <h3 class="subsection-title">2.7. Immune Response Simulation</h3>
+            <p class="mb-4">
+                In silico immune response simulation was performed using the C-ImmSim server to predict the immunological response to the designed vaccine<span class="citation">28</span>. Three injections were simulated at intervals of four weeks with default parameters, and immune cell populations and cytokine levels were analyzed over time.
+            </p>
+
+            <h3 class="subsection-title">2.8. Codon Optimization and In Silico Cloning</h3>
+            <p class="mb-4">
+                The amino acid sequence was reverse-translated and optimized for expression in <i>Escherichia coli</i> K12 using JCat<span class="citation">29</span>. Codon adaptation index (CAI), GC content, and codon frequency distribution were evaluated. For in silico cloning, restriction sites for NdeI and XhoI were added at the N- and C-termini, respectively, and the optimized sequence was inserted into the pET-28a(+) expression vector.
+            </p>
+        </section>        <!-- Results -->        <section id="results" class="mb-12">
+            <h2 class="section-title">3. Results</h2>
+            
+            <h3 class="subsection-title">3.1. Physicochemical Properties and Antigenicity</h3>
+            <p class="mb-4">
+                The designed multi-epitope vaccine construct consists of 291 amino acid residues with a molecular weight of 31.3 kDa and theoretical pI of 9.12. The vaccine was predicted to be stable (instability index: 35.42, below the threshold of 40), soluble in aqueous solution (GRAVY: -0.416), and thermostable (aliphatic index: 68.45). The VaxiJen score of 0.6734 (threshold > 0.4) indicated strong antigenicity, while allergenicity predictions confirmed the non-allergenic nature of the construct.
+            </p>
+
+            <div class="table-container mb-8">
+                <h4 class="text-lg font-semibold mb-3">Table 1. Physicochemical Properties of the Designed Vaccine</h4>
+                <table class="journal-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Number of amino acids</td>
+                            <td>291</td>
+                            <td>Optimal size for a subunit vaccine</td>
+                        </tr>
+                        <tr>
+                            <td>Molecular weight</td>
+                            <td>31.3 kDa</td>
+                            <td>Suitable for purification and delivery</td>
+                        </tr>
+                        <tr>
+                            <td>Theoretical pI</td>
+                            <td>9.12</td>
+                            <td>Slightly basic</td>
+                        </tr>
+                        <tr>
+                            <td>Instability index</td>
+                            <td>35.42</td>
+                            <td>Stable (below 40)</td>
+                        </tr>
+                        <tr>
+                            <td>Aliphatic index</td>
+                            <td>68.45</td>
+                            <td>Thermostable</td>
+                        </tr>
+                        <tr>
+                            <td>GRAVY</td>
+                            <td>-0.416</td>
+                            <td>Hydrophilic (soluble)</td>
+                        </tr>
+                        <tr>
+                            <td>VaxiJen score</td>
+                            <td>0.6734</td>
+                            <td>Highly antigenic (threshold > 0.4)</td>
+                        </tr>
+                        <tr>
+                            <td>Allergenicity</td>
+                            <td>Non-allergenic</td>
+                            <td>Safe for administration</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="subsection-title">3.2. Secondary and Tertiary Structure Analysis</h3>
+            <p class="mb-4">
+                Secondary structure prediction revealed that the vaccine construct comprises 37.1% alpha helices, 16.5% beta strands, and 46.4% random coils. The 3D structure modeled by AlphaFold2 and refined by GalaxyRefine showed high quality with 91.2% residues in favored regions and 7.8% in allowed regions of the Ramachandran plot, indicating stereochemical validity.
+            </p>              <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 4. Structural Analysis of the Vaccine Construct</h4>
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="grid grid-cols-1 gap-6 mb-4">                        <div class="bg-gray-50 p-2 rounded">
+                            <div class="flex justify-center">
+                                <img src="images/image3.png" alt="B Cell Epitope Prediction" class="w-1/2 h-auto rounded md-sim-image">
+                            </div>
+                            <p class="figure-caption"><span class="figure-number">Figure 4A.</span> B cell epitope prediction graph from IEDB showing epitope probability scores across the protein sequence. Yellow regions indicate scores above the threshold (0.5), representing potential B cell epitopes.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-gray-50 p-2 rounded">                                <img src="images/image7.png" alt="Secondary Structure Prediction" class="w-full h-auto rounded md-sim-image">
+                                <p class="figure-caption"><span class="figure-number">Figure 4B.</span> Secondary structure prediction from PSIPRED showing the distribution of alpha helices (pink), beta strands (yellow), and coils (grey) across the protein sequence.</p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">                                <img src="images/image6.png" alt="Secondary Structure Confidence" class="w-full h-auto rounded md-sim-image">
+                                <p class="figure-caption"><span class="figure-number">Figure 4C.</span> Confidence scores for the predicted secondary structure elements, with higher values indicating greater prediction reliability.</p>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <div class="bg-gray-50 p-2 rounded">                                <img src="images/image10.png" alt="Ramachandran Plot" class="w-full h-auto rounded md-sim-image">
+                                <p class="figure-caption"><span class="figure-number">Figure 4D.</span> Ramachandran plot analysis showing distribution of phi-psi angles. 91.2% of residues fall in favored regions (dark blue) and 7.8% in allowed regions (light blue). The structural validation metrics confirm a high-quality model: ERRAT quality factor: 89.23 (threshold > 50), Verify3D: 85.91% (threshold > 80%), and Z-score (ProSA-web): -5.62 (within range of native proteins).</p>
+                            </div>
+                            <p class="mt-3">The refined model displays proper folding with accessible epitope regions, essential for recognition by immune receptors and antibodies.</p>
+                        </div>
+                        
+                        <div class="bg-gray-50 p-4 rounded">
+                            <h5 class="text-primary-color font-semibold mb-3">Structural Validation Summary</h5>
+                            <p class="mb-3">The 3D model was subjected to comprehensive validation using multiple tools:</p>
+                            <ul class="list-disc pl-5 mb-4 space-y-2">
+                                <li><strong>PROCHECK:</strong> Analyzed the stereochemical quality, with 91.2% of residues in most favored regions of the Ramachandran plot.</li>
+                                <li><strong>ERRAT:</strong> Assessed non-bonded interactions with a quality factor of 89.23, well above the threshold of 50.</li>
+                                <li><strong>Verify3D:</strong> 85.91% of residues had compatibility scores ≥0.2, exceeding the 80% threshold for well-folded structures.</li>
+                                <li><strong>ProSA-web:</strong> Z-score of -5.62 falls within the range typically found for native protein structures of similar size.</li>
+                            </ul>
+                            <p>These validation results collectively indicate a high-quality structural model suitable for further analyses, including molecular docking and dynamics simulations.</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-6 mb-4">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <div class="flex justify-center">                                <img src="images/image11.png" alt="ERRAT Quality Score" class="w-1/2 h-auto rounded md-sim-image">
+                            </div>
+                            <p class="figure-caption"><span class="figure-number">Figure 4E.</span> ERRAT score analysis showing the quality factor of 89.23, which is well above the threshold of 50. The plot displays the error function value against sequence position, with bars not exceeding 95% or 99% confidence limit thresholds (indicated by green and yellow lines respectively) representing well-modeled regions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="subsection-title">3.3. Three-Dimensional Structure of the Vaccine Construct</h3>
+            <p class="mb-4">
+                The refined 3D model of the multi-epitope vaccine construct reveals a well-organized tertiary structure with distinct domains corresponding to the adjuvant, PADRE sequence, and epitope regions (Figure 5). The structure displays a mix of α-helices, β-sheets, and coils, consistent with the secondary structure prediction.
+            </p>
+
+            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 5. Three-Dimensional Structure of the Vaccine</h4>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image9.png" alt="3D Structure of Vaccine Construct" class="w-full h-auto rounded md-sim-image">
+                            <p class="figure-caption"><span class="figure-number">Figure 5.</span> Refined three-dimensional structure of the multi-epitope vaccine construct generated by AlphaFold2 and refined with GalaxyRefine.The structure is colored by secondary structure: α-helices (red), β-sheets (yellow), and loops/coils (green). The N-terminal adjuvant domain (left) shows distinct folding from the epitope regions, suggesting proper spatial organization for effective immune recognition.</p>
+                        </div>
+                    </div>
+                    <p class="mt-4">The refined model has a GDT-HA score of 0.9126, RMSD of 0.62 Å, and MolProbity score of 1.42, indicating high structural quality. Importantly, the epitope regions maintain appropriate solvent accessibility, which is crucial for recognition by immune receptors and antibodies. The compact globular structure with exposed antigenic determinants suggests favorable properties for immunogenicity while maintaining structural stability.</p>
+                </div>
+            </div>            <h3 class="subsection-title">3.4. Molecular Docking with Immune Receptors</h3>
+            <p class="mb-4">
+                Visual representation of molecular docking results reveals specific interactions between the vaccine construct and key immune receptors (Figure 3). The docking complexes and residue interaction maps confirm stable binding conformations with TLR4, MHC Class I, and MHC Class II molecules, supporting the quantitative docking scores presented in Table 1.
+            </p>            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 3. Molecular Docking Complexes and Residue Interactions</h4>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- TLR4 Complex and Interactions -->
+                        <div>
+                            <div class="grid grid-cols-1 gap-4 mb-4">
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image17.png" alt="Vaccine-TLR4 Docked Complex" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3A.</span> Docked complex of vaccine construct (green) with TLR4 receptor (blue). The binding interface involves multiple hydrogen bonds and hydrophobic interactions, particularly between the β-defensin adjuvant region and TLR4 extracellular domain.</p>
+                                </div>
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image16.png" alt="TLR4-Vaccine Residue Interactions" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3B.</span> Residue interaction map showing specific amino acid contacts between the vaccine construct (Chain A) and TLR4 receptor (Chain B). Key interactions include hydrogen bonds (blue lines), salt bridges (red lines), and hydrophobic interactions (orange lines) that stabilize the complex.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- MHC Class I Complex and Interactions -->
+                        <div>
+                            <div class="grid grid-cols-1 gap-4 mb-4">
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image13.png" alt="Vaccine-MHC Class I Docked Complex" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3C.</span> Docked complex of vaccine construct (green) with MHC Class I molecule (purple). The MHC Class I epitope regions align properly with the binding groove, facilitating presentation to CD8+ T cells.</p>
+                                </div>
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image12.png" alt="MHC I-Vaccine Residue Interactions" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3D.</span> Residue interaction map showing specific contacts between the vaccine construct epitopes and MHC Class I binding groove. The interaction pattern confirms proper positioning of anchor residues and peptide orientation essential for T-cell receptor recognition.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- MHC Class II Complex and Interactions -->
+                        <div>
+                            <div class="grid grid-cols-1 gap-4 mb-4">
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image15.png" alt="Vaccine-MHC Class II Docked Complex" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3E.</span> Docked complex of vaccine construct (green) with MHC Class II molecule (orange). The extended binding conformation allows MHC Class II epitopes to occupy the peptide-binding cleft, enabling recognition by CD4+ helper T cells.</p>
+                                </div>
+                                <div class="bg-gray-50 p-2 rounded">
+                                    <img src="images/image14.png" alt="MHC II-Vaccine Residue Interactions" class="w-full h-auto rounded md-sim-image">
+                                    <p class="figure-caption"><span class="figure-number">Figure 3F.</span> Residue interaction map between MHC Class II allele and vaccine epitopes. The extensive network of interactions spanning multiple pockets of the binding groove supports stable complex formation needed for CD4+ T-cell activation.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4">The visualization of these molecular complexes and their corresponding residue interactions provides detailed structural evidence for the functional binding of the vaccine with critical components of the immune system. The TLR4 interaction suggests appropriate innate immune activation primarily through the β-defensin adjuvant domain, while the MHC binding conformations support efficient epitope presentation for adaptive immunity. Interatomic distances at binding interfaces are within optimal ranges (2.5-3.5 Å) for hydrogen bonds and salt bridges, indicating energetically favorable interactions that would likely persist in physiological conditions.</p>
+                </div>
+            </div>
+
+            <div class="table-container mb-8">
+                <h4 class="text-lg font-semibold mb-3">Table 1. Molecular Docking Analysis Results</h4>
+                <table class="journal-table">
+                    <thead>
+                        <tr>
+                            <th>Receptor</th>
+                            <th>HADDOCK Score</th>
+                            <th>Z-Score</th>
+                            <th>Buried Surface Area (Å<sup>2</sup>)</th>
+                            <th>Key Interacting Residues</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TLR4 (4G8A)</td>
+                            <td>-42.2</td>
+                            <td>-2.1</td>
+                            <td>1624.5</td>
+                            <td>Arg54, Lys89, Glu92, Asp94, Thr361</td>
+                        </tr>
+                        <tr>
+                            <td>MHC Class I (1HLA)</td>
+                            <td>-55.3</td>
+                            <td>-2.2</td>
+                            <td>1856.2</td>
+                            <td>Tyr59, Tyr84, Thr143, Lys146, Trp147</td>
+                        </tr>
+                        <tr>
+                            <td>MHC Class II (1DLH)</td>
+                            <td>-91.9</td>
+                            <td>-1.8</td>
+                            <td>2243.7</td>
+                            <td>Gln9, Asn62, Asn82, Thr90, His81</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>            <h3 class="subsection-title">3.5. Molecular Dynamics Simulation</h3>
+            <p class="mb-4">
+                The 100 ns molecular dynamics simulation revealed structural stability of the vaccine construct under physiological conditions. The root mean square deviation (RMSD) reached a plateau after the initial equilibration phase, indicating conformational stability. The radius of gyration (Rg) remained consistent between 3.3-3.6 nm, suggesting maintenance of overall compactness.
+            </p>            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 6. Molecular Dynamics Simulation Analysis</h4>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="MD Sim/IMG-20250518-WA0001.jpg" alt="Radius of gyration plot" class="w-full h-auto rounded md-sim-image">                            <p class="figure-caption"><span class="figure-number">Figure 6A.</span> Radius of gyration analysis showing maintenance of structural compactness (3.3-3.6 nm) throughout the simulation.</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="MD Sim/IMG-20250518-WA0002.jpg" alt="RMSD Analysis" class="w-full h-auto rounded md-sim-image">
+                            <p class="figure-caption"><span class="figure-number">Figure 6B.</span> Root Mean Square Deviation (RMSD) plot demonstrating structural stabilization after initial equilibration.</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="MD Sim/IMG-20250518-WA0003.jpg" alt="RMSF Analysis" class="w-full h-auto rounded md-sim-image">
+                            <p class="figure-caption"><span class="figure-number">Figure 6C.</span> Root Mean Square Fluctuation (RMSF) analysis identifying flexible and rigid regions in the protein structure.</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="MD Sim/IMG-20250518-WA0004.jpg" alt="Hydrogen Bond Analysis" class="w-full h-auto rounded md-sim-image">
+                            <p class="figure-caption"><span class="figure-number">Figure 6D.</span> Hydrogen bond analysis showing maintained intramolecular interactions that contribute to structural stability.</p>
+                        </div>
+                    </div>
+                    <p class="mt-4">The simulation results collectively demonstrate that the vaccine construct maintains structural integrity under physiological conditions, with minimal fluctuations in overall structure and preservation of essential secondary structural elements.</p>
+                </div>
+            </div>            <h3 class="subsection-title">3.6. Immune Response Simulation</h3>
+            <p class="mb-4">
+                In silico immune simulation demonstrated that the vaccine construct could induce both humoral and cell-mediated immune responses. Following simulated vaccination, there was a significant increase in B-cell and T-cell populations, along with elevated levels of immunoglobulins and cytokines characteristic of a balanced Th1/Th2 response.
+            </p>
+
+            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 7. Immune Response Simulation Results</h4>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                    <div class="mb-6">                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <div class="flex justify-center">
+                                <img src="images/image31.png" alt="Cytokine Dynamics" class="w-1/2 h-auto rounded-lg immune-sim-image">
+                            </div>
+                            <p class="figure-caption"><span class="figure-number">Figure 7A.</span> Comprehensive cytokine profile dynamics following simulated vaccination, showing balanced pro-inflammatory and regulatory responses.</p>
+                        </div>
+                    </div>
+                    
+                    <h5 class="text-base font-semibold mb-3">Detailed Immune Simulation Analysis</h5>
+                    <p class="mb-4">Click on any image for detailed scientific interpretation. These simulations predict specific immune cell and cytokine responses following vaccination.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image18.png" alt="IFN-γ Response" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">IFN-γ Response</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image19.png" alt="IL-4 Production" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">IL-4 Production</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image20.png" alt="IL-12 Dynamics" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">IL-12 Dynamics</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image21.png" alt="TGF-β Levels" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">TGF-β Levels</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image28.png" alt="T-Cell Activation" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">T-Cell Activation</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image29.png" alt="B-Cell Response" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">B-Cell Response</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image30.png" alt="Antibody Production" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">Antibody Production</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <img src="images/image22.png" alt="TNF-α Production" class="w-full h-auto rounded immune-sim-image">
+                            <p class="figure-caption">TNF-α Production</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <button id="show-all-immune-btn" class="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded font-medium transition-colors">
+                            Show All Immune Response Images +
+                        </button>
+                        
+                        <div id="additional-immune-images" class="hidden mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                            <div class="bg-gray-50 p-2 rounded">
+                                <img src="images/image23.png" alt="IL-10 Response" class="w-full h-auto rounded immune-sim-image">
+                                <p class="figure-caption">IL-10 Response</p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <img src="images/image24.png" alt="IL-6 Dynamics" class="w-full h-auto rounded immune-sim-image">
+                                <p class="figure-caption">IL-6 Dynamics</p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <img src="images/image25.png" alt="IFN-β Levels" class="w-full h-auto rounded immune-sim-image">
+                                <p class="figure-caption">IFN-β Levels</p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <img src="images/image26.png" alt="IL-18 Response" class="w-full h-auto rounded immune-sim-image">
+                                <p class="figure-caption">IL-18 Response</p>
+                            </div>
+                            <div class="bg-gray-50 p-2 rounded">
+                                <img src="images/image27.png" alt="IL-23 Production" class="w-full h-auto rounded immune-sim-image">
+                                <p class="figure-caption">IL-23 Production</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>            </div>            <h3 class="subsection-title">3.7. Codon Optimization for Expression in <i>E. coli</i></h3>
+            <p class="mb-4">
+                The codon-optimized sequence for expression in <i>E. coli</i> K12 showed improved parameters for potential high-level expression. The Codon Adaptation Index (CAI) value increased from 0.65 to 0.97 (ideal score: 1.0), and the GC content was adjusted to 52.3% (within the optimal range of 30-70%). All identified negative cis-elements and repeat sequences were successfully removed, enhancing mRNA stability and translational efficiency.
+            </p>            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 10. Codon-Optimized DNA Sequence for <i>E. coli</i> Expression</h4>
+                <div class="bg-gray-800 text-white p-6 rounded-lg shadow-md border border-gray-700">                <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <p class="text-sm text-gray-300 mb-1">CAI: 0.97 | GC Content: 52.3% | Length: 873 bp</p>
+                        </div>
+                        <button id="copy-dna-btn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors relative">
+                            Copy DNA
+                            <span class="tooltip" id="copy-dna-tooltip">Copied!</span>
+                        </button>
+                    </div>
+                    <pre class="w-full overflow-x-auto bg-black p-4 rounded-md text-sm text-green-300 whitespace-pre-wrap break-all">
+<code id="dna-sequence">GGTATCATCAACACCCTGCAGAAATACTACTGCCGTGTTCGTGGTGGTCGTTGCGCTGTTCTGTCTTGCCTGCCGAAAGAAGAACAGATCGGTAAATGCTCTACCCGTGGTCGTAAATGCTGCCGTCGTAAAAAAGAAGCTGCTGCTAAAGCTAAATTCGTTGCTGCTTGGACCCTGAAAGCTGCTGCTGGTGGTGGTTCTTGCTTCTGCTAAACTGCGTGTTCTGTACGCTGCTTACGCTCTGGCTTCTGCTGAATTCCGTGTTGCTGCTTACTACTACTACGAACTGTACCCGACCATGGCTGCTTACTCTCCGATGGTTCTGGAAATGGAACTGGCTGCTTACTTCACCATCCCGACCGGTGCTGGTAAAGCTGCTTACGGTACCATGGGTCACTTCATCCCTGGCTCGTGGTGGTGGTTCTCGTCCGGGTTACTACCAGCTGCTGCAGGCTTCTCTGACCTGCTCTGGTCCGGGTCCGGGTGACGTTTACAACATGGACTACCCGCCGTTCGGTGCTGGTCGTCCGGGTCCGGGGCCAGGTGTAAGCGCTTACGAACACGTTACCGTTATCCCGAACACCGTTGGTGGTCCGGGTCCGGGTTACCAGGAAGAATGGGTTACCCACAAAAAAGAAGTTGTTCTGACCGGTGGTGGTTCTATCGGTACCGACGACTCTCACGACTGGACCAAACTGCGTTACATGGACAACCACATCCCGGCTGACGCTGGTCGTAAAAAAGACGTTTACAACATGGACTACCCGCCGTTCGGTGCTGGTCGTCCGGGTCAGTTCGGTGACATCCAGTCTCGTACCCCGGAATCTAAAGACGTTTACGCTAACGGTGGTGGTTCACCACCACCACCACCAC</code></pre>
+                    <p class="figure-caption mt-4 text-gray-300"><span class="figure-number text-white">Figure 9.</span> The optimized nucleotide sequence for <i>E. coli</i> expression with added restriction sites for cloning into pET-28a(+) vector. The sequence has been optimized for high-level expression with removal of negative cis-elements and adjustment of codon usage bias.</p>
+                </div>
+            </div>            <h3 class="subsection-title">3.8. In Silico Cloning</h3>
+            <p class="mb-4">                Following codon optimization, the nucleotide sequence encoding the vaccine construct was cloned in silico into the pET-28a(+) expression vector (Figure 10). The recombinant plasmid (6.2 kb) contains the optimized vaccine gene (873 bp) under the control of the T7 promoter, with Kanamycin resistance for selection and 6×His tag for purification.
+            </p>
+
+            <div class="figure mb-8">
+                <h4 class="text-lg font-semibold mb-3">Figure 10. In Silico Cloning in pET-28a(+) Vector</h4>
+                <div class="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                    <div class="grid grid-cols-1 gap-4">                        <div class="bg-gray-50 p-2 rounded">
+                            <div class="flex justify-center">
+                                <img src="images/image37.png" alt="In Silico Cloning Visualization" class="w-1/2 h-auto rounded md-sim-image">
+                            </div>
+                            <p class="figure-caption"><span class="figure-number">Figure 10.</span> In silico cloning of the optimized vaccine sequence into pET-28a(+) vector.The construct includes NdeI and XhoI restriction sites at the 5' and 3' ends respectively, T7 promoter and terminator, Kanamycin resistance gene, and sequences encoding N-terminal and C-terminal His tags for efficient purification.</p>
+                        </div>
+                    </div>
+                    <p class="mt-4">The recombinant plasmid was validated for correct orientation and reading frame. Restriction analysis confirmed the successful insertion of the vaccine gene, and the final construct preserves all essential elements for high-level expression in E. coli, including the ribosome binding site, strong T7 promoter, and efficient termination signals. This vector system is expected to yield 8-10 mg of recombinant protein per liter of bacterial culture under optimized induction conditions.</p>
+                </div>
+            </div>
+        </section>        <!-- Discussion -->
+        <section id="discussion" class="mb-12">
+            <h2 class="section-title">4. Discussion</h2>
+            <div class="two-column">
+                <p class="mb-4">
+                    In this study, we designed and computationally validated a multi-epitope subunit vaccine against Chikungunya virus, addressing the urgent need for a preventive measure against this re-emerging arboviral threat. Our approach leveraged immunoinformatics and structural bioinformatics to create a chimeric construct with potentially broad immunogenicity and favorable safety profile.
+                </p>
+                
+                <p class="mb-4">
+                    The integration of multiple epitopes in our vaccine design represents a strategic approach to elicit comprehensive immunity. The six MHC Class I epitopes are predicted to efficiently activate CD8+ cytotoxic T lymphocytes, crucial for eliminating virus-infected cells<span class="citation">30</span>. Meanwhile, the four MHC Class II epitopes should stimulate CD4+ helper T cells, essential for coordinating both humoral and cell-mediated immune responses<span class="citation">31</span>. The B-cell epitopes are expected to induce neutralizing antibodies capable of preventing viral entry into host cells<span class="citation">32</span>.
+                </p>
+                
+                <p class="mb-4">
+                    The inclusion of β-defensin as an adjuvant represents a significant enhancement to our vaccine design. This antimicrobial peptide not only exhibits intrinsic immunomodulatory properties but also functions as a Toll-like receptor (TLR) agonist, recruiting immature dendritic cells and promoting their maturation<span class="citation">33</span>. Our molecular docking studies confirmed favorable interactions between the β-defensin segment and TLR4, which would likely initiate innate immune signaling cascades necessary for robust adaptive immunity. Additionally, the universal PADRE epitope should ensure broad population coverage by binding to multiple HLA-DR alleles, addressing the challenge of HLA polymorphism in vaccine development<span class="citation">34</span>.
+                </p>
+                
+                <p class="mb-4">
+                    The physicochemical analysis revealed favorable properties of our construct, including stability, solubility, and non-allergenicity. The instability index of 35.42, below the critical threshold of 40, suggests a stable protein with potential for long shelf-life<span class="citation">35</span>. The negative GRAVY score indicates hydrophilicity and likely solubility in aqueous solutions, facilitating formulation and administration. These properties, combined with the moderate molecular weight (31.3 kDa), make the construct suitable for recombinant expression and purification systems.
+                </p>
+                
+                <p class="mb-4">
+                    Structural analysis provided further evidence of the vaccine's potential functionality. The high-quality 3D model with over 90% residues in favored regions of the Ramachandran plot suggests proper folding that would maintain epitope presentation and accessibility. The selection of appropriate linkers—rigid EAAAK linkers between functional domains and flexible AAY, GPGPG, and KK linkers between epitopes—appears to have successfully prevented steric hindrance while preserving the structural integrity of individual epitopes<span class="citation">36</span>.
+                </p>
+                
+                <p class="mb-4">
+                    The molecular dynamics simulations demonstrated remarkable stability under physiological conditions. The RMSD convergence after the initial equilibration phase indicates that the construct reaches a stable conformation, while the consistent radius of gyration values suggest maintenance of structural compactness. The analysis of hydrogen bonding patterns revealed preservation of secondary structures throughout the simulation. Collectively, these results suggest that our vaccine construct possesses the structural stability required for epitope presentation to immune receptors.
+                </p>
+                
+                <p class="mb-4">
+                    Immune simulation results were particularly encouraging, showing balanced activation of both cellular and humoral immune compartments. The observed increases in cytokines such as IFN-γ, IL-2, and IL-12 suggest a strong Th1-polarized response, essential for clearing intracellular pathogens like viruses<span class="citation">37</span>. Simultaneously, the production of IL-4 and IL-10 indicates a complementary Th2 response that would support antibody production. This balanced immune activation profile is highly desirable for a vaccine against a viral pathogen like CHIKV, where both neutralizing antibodies and cytotoxic T cells contribute to protection<span class="citation">38</span>.
+                </p>
+                
+                <p class="mb-4">
+                    Our approach has several advantages over traditional vaccine development strategies. By focusing on specific immunogenic epitopes rather than whole viral proteins, we potentially minimize the risk of adverse reactions while maximizing protective efficacy. Furthermore, the in silico design allows for rapid iterations and optimizations before expensive and time-consuming experimental validations.
+                </p>
+                
+                <p class="mb-4">
+                    However, we acknowledge certain limitations of our study. First, computational predictions, despite their sophistication, cannot fully replicate the complex interactions within biological systems. Second, our model does not account for post-translational modifications that might affect immunogenicity. Third, the immune simulation, while informative, represents a simplified model of the highly complex human immune system. Therefore, experimental validation through in vitro and in vivo studies remains essential.
+                </p>
+                
+                <p class="mb-4">
+                    Future directions should include wet-lab validation of the designed construct, beginning with recombinant expression in E. coli using the optimized sequence we developed. Subsequent steps would involve purification, structural confirmation through circular dichroism and X-ray crystallography, and immunogenicity testing in animal models. Epitope-specific immune responses and protective efficacy against CHIKV challenge would be critical parameters to evaluate.
+                </p>
+            </div>
+        </section>
+        
+        <!-- Conclusion -->
+        <section id="conclusion" class="mb-12">
+            <h2 class="section-title">5. Conclusion</h2>
+            <p class="mb-4">
+                In this study, we report the design and comprehensive in silico validation of a multi-epitope subunit vaccine against Chikungunya virus. By integrating multiple MHC Class I, MHC Class II, and B-cell epitopes with a β-defensin adjuvant and PADRE sequence, we have created a chimeric construct with promising physicochemical properties, structural stability, and immunogenic potential.
+            </p>
+            
+            <p class="mb-4">
+                Our analyses provide strong theoretical evidence for the feasibility of this vaccine candidate, including favorable docking with immune receptors, stable behavior in molecular dynamics simulations, and induction of balanced humoral and cell-mediated immune responses in immune simulations. Furthermore, the codon-optimized sequence suggests potential for efficient expression in E. coli, facilitating future experimental studies.
+            </p>
+            
+            <p class="mb-4">
+                While these computational findings are encouraging, experimental validation remains essential to confirm the predicted properties and protective efficacy. Nevertheless, this work represents a significant step toward developing an effective prophylactic measure against Chikungunya virus, addressing an important unmet medical need in regions affected by this debilitating disease.
+            </p>
+            
+            <p class="mb-4">
+                We propose that this rationally designed vaccine candidate warrants further investigation through in vitro and in vivo studies to evaluate its potential as a safe and effective vaccine against CHIKV infection, potentially contributing to global efforts to control this re-emerging arboviral threat.
+            </p>
+        </section>
+        
+        <!-- References -->
+        <section id="references" class="mb-12">
+            <h2 class="section-title">References</h2>
+            <ol class="references">
+                <li class="reference-item">Powers AM, Logue CH. Changing patterns of chikungunya virus: re-emergence of a zoonotic arbovirus. J Gen Virol. 2007;88(9):2363-2377.</li>
+                <li class="reference-item">Weaver SC, Lecuit M. Chikungunya virus and the global spread of a mosquito-borne disease. N Engl J Med. 2015;372(13):1231-1239.</li>
+                <li class="reference-item">Lumsden WH. An epidemic of virus disease in Southern Province, Tanganyika territory, in 1952–1953. II. General description and epidemiology. Trans R Soc Trop Med Hyg. 1955;49(1):33-57.</li>
+                <li class="reference-item">Borgherini G, Poubeau P, Jossaume A, et al. Persistent arthralgia associated with chikungunya virus: a study of 88 adult patients on Reunion Island. Clin Infect Dis. 2008;47(4):469-475.</li>
+                <li class="reference-item">Cardona-Ospina JA, Diaz-Quijano FA, Rodríguez-Morales AJ. Burden of chikungunya in Latin American countries: estimates of disability-adjusted life-years (DALY) lost in the 2014 epidemic. Int J Infect Dis. 2015;38:60-61.</li>
+                <li class="reference-item">Rothan HA, Bahrani H, Mohamed Z, et al. A combination of doxycycline and ribavirin alleviated chikungunya infection. PLoS One. 2015;10(5):e0126360.</li>
+                <li class="reference-item">Smalley C, Erasmus JH, Chesson CB, Beasley DWC. Status of research and development of vaccines for chikungunya. Vaccine. 2016;34(26):2976-2981.</li>
+                <li class="reference-item">Solignat M, Gay B, Higgs S, Briant L, Devaux C. Replication cycle of chikungunya: a re-emerging arbovirus. Virology. 2009;393(2):183-197.</li>
+                <li class="reference-item">Weger-Lucarelli J, Aliota MT, Kamlangdee A, Osorio JE. Identifying protective components of an effective adenoviral-based vaccine against chikungunya virus infection. Vaccine. 2015;33(48):6829-6835.</li>
+                <li class="reference-item">Dar HA, Zaheer T, Shehroz M, et al. Immunoinformatics-aided design and evaluation of a potential multi-epitope vaccine against Klebsiella pneumoniae. Vaccines. 2019;7(3):88.</li>
+                <li class="reference-item">Shey RA, Ghogomu SM, Esoh KK, et al. In-silico design of a multi-epitope vaccine candidate against onchocerciasis and related filarial diseases. Sci Rep. 2019;9(1):4409.</li>
+                <li class="reference-item">UniProt Consortium. UniProt: a worldwide hub of protein knowledge. Nucleic Acids Res. 2019;47(D1):D506-D515.</li>
+                <li class="reference-item">Doytchinova IA, Flower DR. VaxiJen: a server for prediction of protective antigens, tumor antigens and subunit vaccines. BMC Bioinformatics. 2007;8:4.</li>
+                <li class="reference-item">Gasteiger E, Hoogland C, Gattiker A, et al. Protein Identification and Analysis Tools on the ExPASy Server. In: Walker JM, ed. The Proteomics Protocols Handbook. Humana Press; 2005:571-607.</li>
+                <li class="reference-item">Reynisson B, Alvarez B, Paul S, Peters B, Nielsen M. NetMHCpan-4.1 and NetMHCIIpan-4.0: improved predictions of MHC antigen presentation by concurrent motif deconvolution and integration of MS MHC eluted ligand data. Nucleic Acids Res. 2020;48(W1):W449-W454.</li>
+                <li class="reference-item">Jensen KK, Andreatta M, Marcatili P, et al. Improved methods for predicting peptide binding affinity to MHC class II molecules. Immunology. 2018;154(3):394-406.</li>
+                <li class="reference-item">Saha S, Raghava GPS. Prediction of continuous B-cell epitopes in an antigen using recurrent neural network. Proteins. 2006;65(1):40-48.</li>
+                <li class="reference-item">Jespersen MC, Peters B, Nielsen M, Marcatili P. BepiPred-2.0: improving sequence-based B-cell epitope prediction using conformational epitopes. Nucleic Acids Res. 2017;45(W1):W24-W29.</li>
+                <li class="reference-item">Dimitrov I, Flower DR, Doytchinova I. AllerTOP - a server for in silico prediction of allergens. BMC Bioinformatics. 2013;14(S6):S4.</li>
+                <li class="reference-item">Gupta S, Kapoor P, Chaudhary K, Gautam A, Kumar R, Raghava GPS. In silico approach for predicting toxicity of peptides and proteins. PLoS One. 2013;8(9):e73957.</li>
+                <li class="reference-item">Livingston B, Crimi C, Newman M, et al. A rational strategy to design multiepitope immunogens based on multiple Th lymphocyte epitopes. J Immunol. 2002;168(11):5499-5506.</li>
+                <li class="reference-item">Buchan DWA, Jones DT. The PSIPRED Protein Analysis Workbench: 20 years on. Nucleic Acids Res. 2019;47(W1):W402-W407.</li>
+                <li class="reference-item">Jumper J, Evans R, Pritzel A, et al. Highly accurate protein structure prediction with AlphaFold. Nature. 2021;596(7873):583-589.</li>
+                <li class="reference-item">Ko J, Park H, Heo L, Seok C. GalaxyWEB server for protein structure prediction and refinement. Nucleic Acids Res. 2012;40(W1):W294-W297.</li>
+                <li class="reference-item">Laskowski RA, MacArthur MW, Moss DS, Thornton JM. PROCHECK: a program to check the stereochemical quality of protein structures. J Appl Crystallogr. 1993;26(2):283-291.</li>
+                <li class="reference-item">van Zundert GCP, Rodrigues JPGLM, Trellet M, et al. The HADDOCK2.2 Web Server: User-Friendly Integrative Modeling of Biomolecular Complexes. J Mol Biol. 2016;428(4):720-725.</li>
+                <li class="reference-item">Abraham MJ, Murtola T, Schulz R, et al. GROMACS: High performance molecular simulations through multi-level parallelism from laptops to supercomputers. SoftwareX. 2015;1-2:19-25.</li>
+                <li class="reference-item">Rapin N, Lund O, Bernaschi M, Castiglione F. Computational Immunology Meets Bioinformatics: The Use of Prediction Tools for Molecular Binding in the Simulation of the Immune System. PLoS One. 2010;5(4):e9862.</li>
+                <li class="reference-item">Grote A, Hiller K, Scheer M, et al. JCat: a novel tool to adapt codon usage of a target gene to its potential expression host. Nucleic Acids Res. 2005;33(Web Server):W526-W531.</li>
+                <li class="reference-item">Luckheeram RV, Zhou R, Verma AD, Xia B. CD8+ T cells: differentiation, effector functions, and memory. Clin Dev Immunol. 2012;2012:925135.</li>
+                <li class="reference-item">Swain SL, McKinstry KK, Strutt TM. Expanding roles for CD4+ T cells in immunity to viruses. Nat Rev Immunol. 2012;12(2):136-148.</li>
+                <li class="reference-item">Lum FM, Teo TH, Lee WWL, Kam YW, Rénia L, Ng LFP. An essential role of antibodies in the control of Chikungunya virus infection. J Immunol. 2013;190(12):6295-6302.</li>
+            </ul>
+        </section>
+    </main>
+    
+    <script>
+    document.getElementById('show-all-immune-btn').addEventListener('click', function() {
+        const additionalImages = document.getElementById('additional-immune-images');
+        if (additionalImages.classList.contains('hidden')) {
+            additionalImages.classList.remove('hidden');
+            this.textContent = 'Hide Additional Images -';
+        } else {
+            additionalImages.classList.add('hidden');
+            this.textContent = 'Show All Immune Response Images +';
+        }
+    });
+    // --- Data ---
+    const vaccineData = {
+        adjuvant: {
+            title: 'Adjuvant: Beta Defensin 3',
+            description: 'An adjuvant is included to boost the immune response. We used Beta Defensin 3, a potent immunomodulator that activates the innate immune system, setting the stage for a stronger, more durable adaptive immune response.',
+            sequence: 'GIINTLQKYYCRVRGGRCAVLSCLPKEEQIGKCSTRGRKCCRRKK',
+            linkers: [{ name: 'EAAAK', purpose: 'Rigid linker to separate from PADRE sequence.' }]
+        },
+        padre: {
+            title: 'PADRE Sequence',
+            description: 'The Pan-DR-binding epitope (PADRE) is a universal T-helper epitope. It is designed to bind to a wide variety of MHC Class II molecules, ensuring that the vaccine can activate helper T-cells in a broad human population, overcoming genetic diversity in HLA types.',
+            sequence: 'AKFVAAWTLKAAA',
+        },
+        mhc1: {
+            title: 'MHC Class I Epitopes',
+            description: 'These six short peptides are predicted to bind to MHC Class I molecules. This is crucial for activating CD8+ cytotoxic T-lymphocytes (CTLs), which are responsible for identifying and destroying virus-infected cells. Linker: AAY.',
+            epitopes: [
+                { peptide: 'ASAKLRVLY', alleles: 'HLA-A*30:02, HLA-B*57:01, ...', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'ALASAEFRV', alleles: 'HLA-A*02:01, HLA-A*02:03, ...', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'YYYELYPTM', alleles: 'HLA-A*23:01, HLA-A*24:02', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'SPMVLEMEL', alleles: 'HLA-B*07:02, HLA-B*35:01', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'FTIPTGAGK', alleles: 'HLA-A*68:01, HLA-A*11:01', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'GTMGHFILAR', alleles: 'HLA-A*31:01, HLA-A*11:01, ...', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+            ]
+        },
+        mhc2: {
+            title: 'MHC Class II Epitopes',
+            description: 'These four longer peptides are designed to be presented by MHC Class II molecules. This activates CD4+ helper T-cells, which are the "master regulators" of the adaptive immune response, helping to coordinate both B-cell antibody production and CTL activity. Linker: GPGPG.',
+            epitopes: [
+                { peptide: 'RPGYYQLLQASLTCS', alleles: 'HLA-DRB1*01:01', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'DVYNMDYPPFGAGRP', alleles: 'HLA-DRB1*04:01', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'VSAYEHVTVIPNTVG', alleles: 'HLA-DRB1*04:05', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+                { peptide: 'YQEEWVTHKKEVVLT', alleles: 'HLA-DRB1*13:02', properties: 'Non-toxic, Non-allergenic, Antigenic, Immunogenic' },
+            ]
+        },
+        bcell: {
+            title: 'Linear B-Cell Epitopes',
+            description: 'These two epitopes are predicted to be recognized directly by B-cells, stimulating them to produce antibodies. These antibodies can then neutralize free-floating virus particles, preventing them from infecting new cells. Linker: KK.',
+            epitopes: [
+                { peptide: 'IGTDDSHDWTKLRYMDNHIPADAGR', properties: 'Non-toxic, Non-allergenic, Antigenic' },
+                { peptide: 'DVYNMDYPPFGAGRPGQFGDIQSRTPESKDVYAN', properties: 'Non-toxic, Non-allergenic, Antigenic' },
+            ]
+        },
+        sequence: {
+            title: 'Full Vaccine Construct Amino Acid Sequence',
+            description: 'The final 291-amino acid sequence assembled from all components. The sequence is terminated with a GGGSHHHHHH tag for purification.',
+            sequence: 'GIINTLQKYYCRVRGGRCAVLSCLPKEEQIGKCSTRGRKCCRRKKEAAAKAKFVAAWTLKAAAGGGSASAKLRVLYAAYALASAEFRVAAYYYYELYPTMAAYSPMVLEMELAAYFTIPTGAGKAAYGTMGHFILARGGGSRPGYYQLLQASLTCSGPGPGDVYNMDYPPFGAGRPGPGPGVSAYEHVTVIPNTVGGPGPGYQEEWVTHKKEVVLTGGGSIGTDDSHDWTKLRYMDNHIPADAGRKKDVYNMDYPPFGAGRPGQFGDIQSRTPESKDVYANGGGSHHHHHH'
+        }
+    };
+
+    const dockingData = {
+        labels: ['TLR4', 'MHC1', 'MHC2'],
+        datasets: [{
+            label: 'HADDOCK Score',
+            data: [-42.2, -55.3, -91.9],
+            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+            borderColor: 'rgba(59, 130, 246, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Z-Score',
+            data: [-2.1, -2.2, -1.8],
+            backgroundColor: 'rgba(16, 185, 129, 0.7)',
+            borderColor: 'rgba(16, 185, 129, 1)',
+            borderWidth: 1
+        }]
+    };
+      // Removed immuneSimData as we now use static images instead
+
+
+    // --- Functions ---
+    async function callLLM(prompt, outputElement, loadingElement) {
+        outputElement.classList.add('hidden');
+        loadingElement.classList.remove('hidden');
+        try {
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = "" 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+            const result = await response.json();
+            if (result.candidates && result.candidates.length > 0 &&
+                result.candidates[0].content && result.candidates[0].content.parts &&
+                result.candidates[0].content.parts.length > 0) {
+                const text = result.candidates[0].content.parts[0].text;
+                outputElement.innerHTML = `<p class="font-semibold mb-2">Result:</p><div>${text}</div>`;
+            } else {
+                outputElement.innerHTML = `<p class="font-semibold mb-2 text-red-600">Error: Could not generate response.</p>`;
+            }
+        } catch (error) {
+            console.error('LLM API call failed:', error);
+            outputElement.innerHTML = `<p class="font-semibold mb-2 text-red-600">Error: API call failed. Check console for details.</p>`;
+        } finally {
+            loadingElement.classList.add('hidden');
+            outputElement.classList.remove('hidden');
+        }
+    }    function renderComponentDetails(componentKey) {
+        const data = vaccineData[componentKey];
+        const container = document.getElementById('component-details');
+        if (!data) {
+            container.innerHTML = '<p>Select a component to see details.</p>';
+            return;
+        }
+
+        let content = `<div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 fade-in">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">${data.title}</h3>
+                        <p class="text-gray-600 mb-6">${data.description}</p>`;        if (data.sequence) {
+            content += `<h4 class="font-semibold text-lg mb-2">Sequence:</h4>
+                        <pre class="bg-gray-100 p-4 rounded-md text-sm text-gray-700 whitespace-pre-wrap break-all mb-4"><code>${data.sequence}</code></pre>`;
+        }
+        
+        if (data.epitopes) {
+            content += `<div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Peptide</th>`;
+            if (data.epitopes[0].alleles) content += `<th scope="col" class="px-6 py-3">Predicted HLA Alleles</th>`;
+            content += `<th scope="col" class="px-6 py-3">Predicted Properties</th>
+                    </tr>
+                </thead><tbody>`;
+
+            data.epitopes.forEach(epitope => {
+                content += `<tr class="bg-white border-b hover:bg-gray-50">
+                                <td class="px-6 py-4 font-mono">${epitope.peptide}</td>`;
+                if (epitope.alleles) content += `<td class="px-6 py-4">${epitope.alleles}</td>`;
+                content += `<td class="px-6 py-4">${epitope.properties}</td>
+                            </tr>`;
+            });
+            content += `</tbody></table></div>`;
+        }
+        
+        content += '</div>';
+        container.innerHTML = content;
+    }
+
+    function createDockingChart() {
+        const ctx = document.getElementById('dockingChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: dockingData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: false },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: '#e5e7eb' }
+                    }
+                },
+            }
+        });
+    }    // Removed createImmuneSimChart function as we now use static images instead    // --- Event Listeners ---
+    document.getElementById('vaccine-diagram').addEventListener('click', function (e) {
+        if (e.target.tagName === 'BUTTON') {
+            const componentKey = e.target.getAttribute('data-component');
+            
+            document.querySelectorAll('.component-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+
+            renderComponentDetails(componentKey);
+        }
+    });
+
+    const copyDnaBtn = document.getElementById('copy-dna-btn');
+    const copyDnaTooltip = document.getElementById('copy-dna-tooltip');
+    copyDnaBtn.addEventListener('click', function () {
+        const dnaSequence = document.getElementById('dna-sequence').innerText;
+        const textarea = document.createElement('textarea');
+        textarea.value = dnaSequence;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        copyDnaTooltip.style.opacity = '1';
+        setTimeout(() => {
+            copyDnaTooltip.style.opacity = '0';
+        }, 2000);
+    });
+
+    // Mobile navigation
+    document.getElementById('mobile-nav').addEventListener('change', function(e) {
+        window.location.hash = e.target.value;
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href').substring(1) === entry.target.id);
+                });
+            }
+        });
+    }, { rootMargin: '-50% 0px -50% 0px' });
+    sections.forEach(section => observer.observe(section));
+
+    // --- LLM Feature Listeners ---
+    document.querySelectorAll('.llm-summarize-btn').forEach(button => {
+        button.addEventListener('click', async function() {
+            const targetSectionId = this.dataset.targetSection;
+            const sectionContent = document.getElementById(targetSectionId).querySelector('p:not(.text-sm)').innerText; // Get main paragraph content
+            const outputDiv = this.nextElementSibling.querySelector('.summary-content');
+            const loadingDiv = this.nextElementSibling.querySelector('.loading-indicator');
+            this.nextElementSibling.classList.remove('hidden'); // Show the summary output area
+
+            const prompt = `Summarize the following scientific text concisely: "${sectionContent}"`;
+            await callLLM(prompt, outputDiv, loadingDiv);
+        });
+    });
+
+    document.getElementById('explain-concept-btn').addEventListener('click', async function() {
+        const conceptInput = document.getElementById('concept-input');
+        const concept = conceptInput.value.trim();
+        const outputDiv = document.getElementById('concept-output').querySelector('.explanation-content');
+        const loadingDiv = document.getElementById('concept-output').querySelector('.loading-indicator');
+        document.getElementById('concept-output').classList.remove('hidden'); // Show the explanation output area
+
+        if (concept) {
+            const prompt = `Explain the scientific concept "${concept}" in simple terms, suitable for a general audience.`;
+            await callLLM(prompt, outputDiv, loadingDiv);
+        } else {
+            outputDiv.innerHTML = `<p class="font-semibold mb-2 text-red-600">Please enter a concept to explain.</p>`;
+            loadingDiv.classList.add('hidden');
+            document.getElementById('concept-output').classList.remove('hidden');
+        }
+    });
+    // --- Initial Render ---
+    createDockingChart();
+    // No longer need createImmuneSimChart() as we're using images instead
+    document.querySelector('.component-btn[data-component="adjuvant"]').classList.add('active');
+    renderComponentDetails('adjuvant');
+    
+    // --- MD Simulation Image Modal ---    // Add modal HTML
+    const modalHTML = `
+        <div id="md-sim-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden">
+            <div class="max-w-4xl w-full bg-white rounded-lg overflow-hidden shadow-xl relative">
+                <button id="md-sim-modal-close" class="absolute top-2 right-3 text-gray-400 hover:text-gray-600 text-2xl font-bold z-10">&times;</button>
+                <button id="md-sim-modal-prev" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-2xl transition-all z-10">&lt;</button>
+                <button id="md-sim-modal-next" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-80 rounded-full w-10 h-10 flex items-center justify-center text-2xl transition-all z-10">&gt;</button>
+                <div class="p-4">
+                    <h3 id="md-sim-modal-title" class="text-xl font-bold text-center mb-2"></h3>
+                    <img id="md-sim-modal-img" src="" alt="MD simulation image" class="w-full h-auto">
+                    <div id="md-sim-modal-description" class="text-gray-700 text-center mt-5 mb-2 max-w-3xl mx-auto"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Set up modal event listeners
+    const modal = document.getElementById('md-sim-modal');
+    const modalClose = document.getElementById('md-sim-modal-close');
+    const modalImg = document.getElementById('md-sim-modal-img');
+    const modalTitle = document.getElementById('md-sim-modal-title');
+    const modalDescription = document.getElementById('md-sim-modal-description');    // Add click event to all simulation images (MD and immune)
+    document.querySelectorAll('.md-sim-image, .immune-sim-image').forEach(img => {
+        img.addEventListener('click', function() {
+            modalImg.src = this.src;
+            modalTitle.textContent = this.alt;
+            
+            // Set detailed descriptions based on image alt text
+            if (this.alt.includes("Radius of gyration")) {
+                modalDescription.innerHTML = `<strong>Radius of gyration (Rg):</strong> This plot shows the compactness of the vaccine construct over the 100 ns simulation. 
+                The stability between 3.3-3.6 nm indicates that the protein maintains consistent size and shape without unfolding or collapsing.
+                Minor fluctuations are normal for a dynamic protein in solution.`;
+            } else if (this.alt.includes("RMSD")) {
+                modalDescription.innerHTML = `<strong>Root Mean Square Deviation (RMSD):</strong> This measures the average distance between atoms of superimposed protein structures.
+                The plateau reached after initial equilibration (first ~20 ns) indicates the structure has reached a stable conformation.
+                This stability is crucial for maintaining epitope presentation to immune cells.`;
+            } else if (this.alt.includes("RMSF")) {
+                modalDescription.innerHTML = `<strong>Root Mean Square Fluctuation (RMSF):</strong> This identifies which parts of the protein are most flexible.
+                Lower values indicate more rigid regions, while peaks show flexible segments.
+                Epitope regions show appropriate flexibility to engage with immune receptors while maintaining their overall structure.`;
+            } else if (this.alt.includes("Hydrogen Bond")) {
+                modalDescription.innerHTML = `<strong>Hydrogen Bond Analysis:</strong> Hydrogen bonds are crucial for stabilizing protein structure.
+                This plot shows the number of hydrogen bonds present throughout the simulation.
+                The consistent hydrogen bond count indicates stable secondary structure elements (alpha helices and beta sheets) are maintained throughout the simulation.`;
+            } 
+            // Immune simulation image descriptions
+            else if (this.alt.includes("Cytokine Dynamics")) {
+                modalDescription.innerHTML = `<strong>Cytokine Profile Dynamics:</strong> This comprehensive plot shows the time-dependent changes in multiple cytokine levels following vaccination. 
+                The balanced profile of pro-inflammatory (IFN-γ, IL-12) and regulatory (IL-10, TGF-β) cytokines suggests a well-regulated immune response that effectively clears infection without excessive inflammation.`;
+            } else if (this.alt.includes("IFN-γ")) {
+                modalDescription.innerHTML = `<strong>IFN-γ (Interferon gamma):</strong> This key Th1 cytokine is essential for antiviral immunity. 
+                The strong early production followed by sustained levels indicates effective activation of cell-mediated immunity, particularly cytotoxic T-cells that can target and eliminate virus-infected cells.`;
+            } else if (this.alt.includes("IL-4")) {
+                modalDescription.innerHTML = `<strong>IL-4 (Interleukin-4):</strong> This Th2-associated cytokine helps drive antibody production. 
+                The moderate levels shown here suggest a balanced immune response that supports antibody development without suppressing the critical Th1 response needed for viral clearance.`;
+            } else if (this.alt.includes("IL-12")) {
+                modalDescription.innerHTML = `<strong>IL-12 (Interleukin-12):</strong> This cytokine is crucial for promoting Th1 differentiation and IFN-γ production. 
+                The early spike followed by moderate sustained levels indicates proper activation of cell-mediated immunity, essential for clearance of intracellular pathogens like viruses.`;
+            } else if (this.alt.includes("TGF-β")) {
+                modalDescription.innerHTML = `<strong>TGF-β (Transforming Growth Factor beta):</strong> This regulatory cytokine helps prevent excessive inflammation. 
+                The moderate levels observed help maintain immunological homeostasis while allowing effective immune activity against the pathogen.`;
+            } else if (this.alt.includes("TNF-α")) {
+                modalDescription.innerHTML = `<strong>TNF-α (Tumor Necrosis Factor alpha):</strong> This pro-inflammatory cytokine is important for local inflammation and immune cell recruitment. 
+                The controlled early increase followed by return to baseline suggests appropriate inflammatory activation without chronic inflammation that could lead to tissue damage.`;
+            } else if (this.alt.includes("IL-10")) {
+                modalDescription.innerHTML = `<strong>IL-10 (Interleukin-10):</strong> This anti-inflammatory cytokine helps regulate immune responses. 
+                Its presence helps prevent excessive inflammation while allowing effective clearance of the pathogen.`;
+            } else if (this.alt.includes("IL-6")) {
+                modalDescription.innerHTML = `<strong>IL-6 (Interleukin-6):</strong> This pleiotropic cytokine has both pro- and anti-inflammatory properties. 
+                It helps activate T-cells and promotes antibody production. The moderate levels suggest appropriate activation without cytokine storm.`;
+            } else if (this.alt.includes("IFN-β")) {
+                modalDescription.innerHTML = `<strong>IFN-β (Interferon beta):</strong> This type I interferon is critical for early antiviral responses. 
+                Its production helps limit viral spread and primes the adaptive immune response.`;
+            } else if (this.alt.includes("IL-18")) {
+                modalDescription.innerHTML = `<strong>IL-18 (Interleukin-18):</strong> Working synergistically with IL-12, IL-18 enhances IFN-γ production and supports Th1 development. 
+                Its presence contributes to an effective cell-mediated immune response against the virus.`;
+            } else if (this.alt.includes("IL-23")) {
+                modalDescription.innerHTML = `<strong>IL-23 (Interleukin-23):</strong> This cytokine supports Th17 responses which can contribute to mucosal immunity. 
+                The moderate levels suggest appropriate activation of multiple T-cell subsets for comprehensive immunity.`;
+            } else if (this.alt.includes("T-Cell Activation")) {
+                modalDescription.innerHTML = `<strong>T-Cell Activation:</strong> This graph shows the kinetics of T-cell activation following vaccination. 
+                The robust and sustained activation indicates effective priming of both CD4+ helper and CD8+ cytotoxic T-cells, essential for a comprehensive anti-viral response.`;
+            } else if (this.alt.includes("B-Cell Response")) {
+                modalDescription.innerHTML = `<strong>B-Cell Response:</strong> This plot demonstrates B-cell proliferation and activation dynamics. 
+                The strong B-cell response suggests effective activation of humoral immunity, leading to antibody production.`;
+            } else if (this.alt.includes("Antibody Production")) {
+                modalDescription.innerHTML = `<strong>Antibody Production:</strong> This graph shows the kinetics of antibody production following vaccination. 
+                The increasing titers followed by sustained plateau suggest development of durable humoral immunity that can neutralize free virus particles.`;
+            } else {
+                modalDescription.textContent = this.nextElementSibling.textContent;
+            }
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+    
+    // Close modal on button click
+    modalClose.addEventListener('click', function() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+    });
+    
+    // Close modal on outside click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+      // Close modal on escape key and add arrow key navigation
+    document.addEventListener('keydown', function(e) {
+        if (modal.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        } else if (e.key === 'ArrowRight') {
+            navigateModal('next');
+        } else if (e.key === 'ArrowLeft') {
+            navigateModal('prev');
+        }
+    });
+    
+    // Navigation buttons
+    const prevButton = document.getElementById('md-sim-modal-prev');
+    const nextButton = document.getElementById('md-sim-modal-next');
+    
+    prevButton.addEventListener('click', function() {
+        navigateModal('prev');
+    });
+    
+    nextButton.addEventListener('click', function() {
+        navigateModal('next');
+    });
+      // Navigation function
+    function navigateModal(direction) {
+        // Find all simulation images
+        const allImages = Array.from(document.querySelectorAll('.md-sim-image, .immune-sim-image'));
+        const currentSrc = modalImg.src;
+        const currentIndex = allImages.findIndex(img => img.src === currentSrc);
+        
+        // Determine if we're navigating within MD images or immune images
+        const isImmuneImage = currentSrc.includes('/images/');
+        
+        // Filter images based on type to stay within the same category
+        const images = isImmuneImage 
+            ? allImages.filter(img => img.src.includes('/images/'))
+            : allImages.filter(img => img.src.includes('/MD Sim/'));
+            
+        // Find current index within the filtered category
+        const categoryIndex = images.findIndex(img => img.src === currentSrc);
+        
+        let newIndex;
+        if (direction === 'next') {
+            newIndex = (categoryIndex + 1) % images.length;
+        } else {
+            newIndex = (categoryIndex - 1 + images.length) % images.length;
+        }
+        
+        const newImage = images[newIndex];
+        modalImg.src = newImage.src;
+        modalTitle.textContent = newImage.alt;
+        
+        // Update description based on the image type - using the same logic as in the click event
+        if (newImage.alt.includes("Radius of gyration")) {
+            modalDescription.innerHTML = `<strong>Radius of gyration (Rg):</strong> This plot shows the compactness of the vaccine construct over the 100 ns simulation. 
+            The stability between 3.3-3.6 nm indicates that the protein maintains consistent size and shape without unfolding or collapsing.
+            Minor fluctuations are normal for a dynamic protein in solution.`;
+        } else if (newImage.alt.includes("RMSD")) {
+            modalDescription.innerHTML = `<strong>Root Mean Square Deviation (RMSD):</strong> This measures the average distance between atoms of superimposed protein structures.
+            The plateau reached after initial equilibration (first ~20 ns) indicates the structure has reached a stable conformation.
+            This stability is crucial for maintaining epitope presentation to immune cells.`;
+        } else if (newImage.alt.includes("RMSF")) {
+            modalDescription.innerHTML = `<strong>Root Mean Square Fluctuation (RMSF):</strong> This identifies which parts of the protein are most flexible.
+            Lower values indicate more rigid regions, while peaks show flexible segments.
+            Epitope regions show appropriate flexibility to engage with immune receptors while maintaining their overall structure.`;
+        } else if (newImage.alt.includes("Hydrogen Bond")) {
+            modalDescription.innerHTML = `<strong>Hydrogen Bond Analysis:</strong> Hydrogen bonds are crucial for stabilizing protein structure.
+            This plot shows the number of hydrogen bonds present throughout the simulation.
+            The consistent hydrogen bond count indicates stable secondary structure elements (alpha helices and beta sheets) are maintained throughout the simulation.`;
+        } 
+        // Immune simulation image descriptions
+        else if (newImage.alt.includes("Cytokine Dynamics")) {
+            modalDescription.innerHTML = `<strong>Cytokine Profile Dynamics:</strong> This comprehensive plot shows the time-dependent changes in multiple cytokine levels following vaccination. 
+            The balanced profile of pro-inflammatory (IFN-γ, IL-12) and regulatory (IL-10, TGF-β) cytokines suggests a well-regulated immune response that effectively clears infection without excessive inflammation.`;
+        } else if (newImage.alt.includes("IFN-γ")) {
+            modalDescription.innerHTML = `<strong>IFN-γ (Interferon gamma):</strong> This key Th1 cytokine is essential for antiviral immunity. 
+            The strong early production followed by sustained levels indicates effective activation of cell-mediated immunity, particularly cytotoxic T-cells that can target and eliminate virus-infected cells.`;
+        } else if (newImage.alt.includes("IL-4")) {
+            modalDescription.innerHTML = `<strong>IL-4 (Interleukin-4):</strong> This Th2-associated cytokine helps drive antibody production. 
+            The moderate levels shown here suggest a balanced immune response that supports antibody development without suppressing the critical Th1 response needed for viral clearance.`;
+        } else if (newImage.alt.includes("IL-12")) {
+            modalDescription.innerHTML = `<strong>IL-12 (Interleukin-12):</strong> This cytokine is crucial for promoting Th1 differentiation and IFN-γ production. 
+            The early spike followed by moderate sustained levels indicates proper activation of cell-mediated immunity, essential for clearance of intracellular pathogens like viruses.`;
+        } else if (newImage.alt.includes("TGF-β")) {
+            modalDescription.innerHTML = `<strong>TGF-β (Transforming Growth Factor beta):</strong> This regulatory cytokine helps prevent excessive inflammation. 
+            The moderate levels observed help maintain immunological homeostasis while allowing effective immune activity against the pathogen.`;
+        } else if (newImage.alt.includes("TNF-α")) {
+            modalDescription.innerHTML = `<strong>TNF-α (Tumor Necrosis Factor alpha):</strong> This pro-inflammatory cytokine is important for local inflammation and immune cell recruitment. 
+            The controlled early increase followed by return to baseline suggests appropriate inflammatory activation without chronic inflammation that could lead to tissue damage.`;
+        } else if (newImage.alt.includes("IL-10")) {
+            modalDescription.innerHTML = `<strong>IL-10 (Interleukin-10):</strong> This anti-inflammatory cytokine helps regulate immune responses. 
+            Its presence helps prevent excessive inflammation while allowing effective clearance of the pathogen.`;
+        } else if (newImage.alt.includes("IL-6")) {
+            modalDescription.innerHTML = `<strong>IL-6 (Interleukin-6):</strong> This pleiotropic cytokine has both pro- and anti-inflammatory properties. 
+            It helps activate T-cells and promotes antibody production. The moderate levels suggest appropriate activation without cytokine storm.`;
+        } else if (newImage.alt.includes("IFN-β")) {
+            modalDescription.innerHTML = `<strong>IFN-β (Interferon beta):</strong> This type I interferon is critical for early antiviral responses. 
+            Its production helps limit viral spread and primes the adaptive immune response.`;
+        } else if (newImage.alt.includes("IL-18")) {
+            modalDescription.innerHTML = `<strong>IL-18 (Interleukin-18):</strong> Working synergistically with IL-12, IL-18 enhances IFN-γ production and supports Th1 development. 
+            Its presence contributes to an effective cell-mediated immune response against the virus.`;
+        } else if (newImage.alt.includes("IL-23")) {
+            modalDescription.innerHTML = `<strong>IL-23 (Interleukin-23):</strong> This cytokine supports Th17 responses which can contribute to mucosal immunity. 
+            The moderate levels suggest appropriate activation of multiple T-cell subsets for comprehensive immunity.`;
+        } else if (newImage.alt.includes("T-Cell Activation")) {
+            modalDescription.innerHTML = `<strong>T-Cell Activation:</strong> This graph shows the kinetics of T-cell activation following vaccination. 
+            The robust and sustained activation indicates effective priming of both CD4+ helper and CD8+ cytotoxic T-cells, essential for a comprehensive anti-viral response.`;
+        } else if (newImage.alt.includes("B-Cell Response")) {
+            modalDescription.innerHTML = `<strong>B-Cell Response:</strong> This plot demonstrates B-cell proliferation and activation dynamics. 
+            The strong B-cell response suggests effective activation of humoral immunity, leading to antibody production.`;
+        } else if (newImage.alt.includes("Antibody Production")) {
+            modalDescription.innerHTML = `<strong>Antibody Production:</strong> This graph shows the kinetics of antibody production following vaccination. 
+            The increasing titers followed by sustained plateau suggest development of durable humoral immunity that can neutralize free virus particles.`;
+        } else {
+            modalDescription.textContent = newImage.nextElementSibling.textContent;
+        }
+    }
+});
+</script>
+</body>
+</html>

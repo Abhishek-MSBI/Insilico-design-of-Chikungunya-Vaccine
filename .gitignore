@@ -1,0 +1,13 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled and temporary files
+*.log
+*.aux
+*.out
+
+# Node / Python / VS Code (if any tools used)
+node_modules/
+.env
+.vscode/
