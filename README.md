@@ -2,6 +2,8 @@
 
 This project presents a detailed **in silico** design and simulation of a multi-epitope subunit vaccine against the Chikungunya virus. It uses **immunoinformatics, structural bioinformatics**, and **molecular dynamics** to construct a stable, antigenic, and non-allergenic chimeric protein suitable for experimental validation.
 
+The research paper is live at https://abhishek-msbi.github.io/Insilico-design-of-Chikungunya-Vaccine/
+
 ## 🚀 Features
 
 - Multi-epitope vaccine construct with β-defensin adjuvant
