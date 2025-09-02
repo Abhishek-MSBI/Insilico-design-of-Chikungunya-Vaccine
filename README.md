@@ -1,4 +1,4 @@
-# 🧬 Multi-Epitope Subunit Vaccine Design Against Chikungunya Virus
+# 🧬 Design of a Multi-Epitope Vaccine Against Chikungunya Virus: An InSilico Approach
 
 This repository presents a comprehensive **in silico** pipeline for the design, structural validation, and immunological characterization of a multi-epitope subunit vaccine candidate targeting the *Chikungunya virus (CHIKV)*.
 
