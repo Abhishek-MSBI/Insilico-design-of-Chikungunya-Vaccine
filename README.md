@@ -1,7 +1,5 @@
 # 🧬 Multi-Epitope Subunit Vaccine Design Against Chikungunya Virus
 
-The research paper is live at https://abhishek-msbi.github.io/Insilico-design-of-Chikungunya-Vaccine/
-
 This repository presents a comprehensive **in silico** pipeline for the design, structural validation, and immunological characterization of a multi-epitope subunit vaccine candidate targeting the *Chikungunya virus (CHIKV)*.
 
 > **Authors**: Abhishek S R, Janani S P  
