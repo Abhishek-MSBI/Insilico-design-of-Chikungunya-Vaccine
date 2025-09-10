@@ -5,6 +5,7 @@ This repository presents a comprehensive **in silico** pipeline for the design, 
 > **Authors**: Abhishek S R, Janani S P  
 > Department of Life Science and Bioinformatics, Garden City University, Bangalore, India
 
+Preprint url https://doi.org/10.21203/rs.3.rs-7556626/v1
 ---
 
 ## 📄 Abstract
